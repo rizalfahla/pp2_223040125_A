@@ -13,7 +13,7 @@ public class ListTabungan extends JFrame {
     private JSlider slider;
     private JPasswordField passwordField, confirmPasswordField;
     private ButtonGroup group;
-    private JSpinner spinnerTanggalLahir;  // Tambahkan variabel untuk spinner
+    private JSpinner spinnerTanggalLahir;  
 
     public ListTabungan() {
         // Set default close operation
