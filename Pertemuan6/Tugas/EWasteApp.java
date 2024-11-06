@@ -1,6 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Klik nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt untuk mengubah lisensi ini
+ * Klik nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java untuk mengedit template ini
  */
 package Pertemuan6.Tugas;
 
@@ -8,6 +8,8 @@ package Pertemuan6.Tugas;
  *
  * @author fahla
  */
+import Pertemuan7.EWaste.src.dao.EWasteDao;
+import Pertemuan7.EWaste.src.model.EWasteItem;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -28,46 +30,46 @@ public class EWasteApp extends JFrame {
     private DefaultTableModel tableModel;
 
     public EWasteApp() {
-        setTitle("E-Waste Management System");
+        setTitle("Sistem Pengelolaan E-Waste");
         setSize(1000, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Menu Bar
         JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Options");
-        JMenuItem newEntryItem = new JMenuItem("New Entry");
-        JMenuItem resetItem = new JMenuItem("Reset");
-        JMenuItem exitItem = new JMenuItem("Exit");
+        JMenu menu = new JMenu("Opsi");
+        JMenuItem newEntryItem = new JMenuItem("Entri Baru");
+        JMenuItem resetItem = new JMenuItem("Atur Ulang");
+        JMenuItem exitItem = new JMenuItem("Keluar");
         menu.add(newEntryItem);
         menu.add(resetItem);
         menu.add(exitItem);
         menuBar.add(menu);
         setJMenuBar(menuBar);
 
-        // Main Panel
+        // Panel Utama
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        // Entry Panel (Form Input)
+        // Panel Entri (Form Input)
         JPanel entryPanel = new JPanel();
         entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.Y_AXIS));
 
-        // Form Components
+        // Komponen Form
         itemNameField = new JTextField(20);
         notesArea = new JTextArea(3, 20);
-        workingButton = new JRadioButton("Working");
-        brokenButton = new JRadioButton("Broken");
+        workingButton = new JRadioButton("Berfungsi");
+        brokenButton = new JRadioButton("Rusak");
         ButtonGroup conditionGroup = new ButtonGroup();
         conditionGroup.add(workingButton);
         conditionGroup.add(brokenButton);
 
-        batteryCheckBox = new JCheckBox("Battery");
-        chargerCheckBox = new JCheckBox("Charger");
-        screenCheckBox = new JCheckBox("Screen");
+        batteryCheckBox = new JCheckBox("Baterai");
+        chargerCheckBox = new JCheckBox("Pengisi Daya");
+        screenCheckBox = new JCheckBox("Layar");
 
-        String[] categories = {"Mobile", "Laptop", "Tablet", "Desktop", "Accessories"};
+        String[] categories = {"Ponsel", "Laptop", "Tablet", "Desktop", "Aksesori"};
         categoryComboBox = new JComboBox<>(categories);
 
-        String[] conditions = {"Good", "Fair", "Poor"};
+        String[] conditions = {"Baik", "Cukup", "Buruk"};
         conditionList = new JList<>(conditions);
 
         sizeSlider = new JSlider(1, 100, 50);
@@ -77,12 +79,12 @@ public class EWasteApp extends JFrame {
  
         quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 20, 1));
 
-        // Table to display e-waste entries
-        String[] columns = {"Item Name", "Category", "Condition", "Extras", "Size", "Quantity"};
+        // Tabel untuk menampilkan entri e-waste
+        String[] columns = {"Nama Item", "Kategori", "Kondisi", "Tambahan", "Ukuran", "Jumlah"};
         tableModel = new DefaultTableModel(columns, 0);
         wasteTable = new JTable(tableModel);
 
-        JButton addButton = new JButton("Add Item");
+        JButton addButton = new JButton("Tambahkan Item");
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,29 +92,29 @@ public class EWasteApp extends JFrame {
             }
         });
 
-        // Adding components to the entry panel
-        entryPanel.add(new JLabel("Item Name:"));
+        // Menambahkan komponen ke panel entri
+        entryPanel.add(new JLabel("Nama Item:"));
         entryPanel.add(itemNameField);
-        entryPanel.add(new JLabel("Notes:"));
+        entryPanel.add(new JLabel("Catatan:"));
         entryPanel.add(new JScrollPane(notesArea));
-        entryPanel.add(new JLabel("Condition:"));
+        entryPanel.add(new JLabel("Kondisi:"));
         entryPanel.add(workingButton);
         entryPanel.add(brokenButton);
-        entryPanel.add(new JLabel("Extras:"));
+        entryPanel.add(new JLabel("Tambahan:"));
         entryPanel.add(batteryCheckBox);
         entryPanel.add(chargerCheckBox);
         entryPanel.add(screenCheckBox);
-        entryPanel.add(new JLabel("Category:"));
+        entryPanel.add(new JLabel("Kategori:"));
         entryPanel.add(categoryComboBox);
-        entryPanel.add(new JLabel("Physical Condition:"));
+        entryPanel.add(new JLabel("Kondisi Fisik:"));
         entryPanel.add(new JScrollPane(conditionList));
-        entryPanel.add(new JLabel("Size (inches):"));
+        entryPanel.add(new JLabel("Ukuran (inci):"));
         entryPanel.add(sizeSlider);
-        entryPanel.add(new JLabel("Quantity:"));
+        entryPanel.add(new JLabel("Jumlah:"));
         entryPanel.add(quantitySpinner);
         entryPanel.add(addButton);
 
-        // Table Panel
+        // Panel Tabel
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.add(new JScrollPane(wasteTable), BorderLayout.CENTER);
 
@@ -125,11 +127,11 @@ public class EWasteApp extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 resetEntry();
-                JOptionPane.showMessageDialog(null, "New Entry Form Ready");
+                JOptionPane.showMessageDialog(null, "Form Entri Baru Siap");
             }
         });
         
-        resetItem.addActionListener(new ActionListener() { // Menambahkan ActionListener untuk Reset
+        resetItem.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             resetForm();
@@ -145,19 +147,23 @@ public class EWasteApp extends JFrame {
     }
 
     private void addEntry() {
-        String itemName = itemNameField.getText();
-        String category = categoryComboBox.getSelectedItem().toString();
-        String condition = workingButton.isSelected() ? "Working" : "Broken";
+        EWasteItem item = new EWasteItem();
+        item.setNamaItem(itemNameField.getText());
+        item.setKategori(categoryComboBox.getSelectedItem().toString());
+        item.setKondisi(workingButton.isSelected() ? "Berfungsi" : "Rusak");
 
-        StringBuilder extras = new StringBuilder();
-        if (batteryCheckBox.isSelected()) extras.append("Battery ");
-        if (chargerCheckBox.isSelected()) extras.append("Charger ");
-        if (screenCheckBox.isSelected()) extras.append("Screen ");
+        StringBuilder tambahan = new StringBuilder();
+        if (batteryCheckBox.isSelected()) tambahan.append("Baterai ");
+        if (chargerCheckBox.isSelected()) tambahan.append("Pengisi Daya ");
+        if (screenCheckBox.isSelected()) tambahan.append("Layar ");
+        item.setTambahan(tambahan.toString());
 
-        String size = String.valueOf(sizeSlider.getValue());
-        String quantity = quantitySpinner.getValue().toString();
+        item.setUkuran(sizeSlider.getValue());
+        item.setJumlah((Integer) quantitySpinner.getValue());
 
-        tableModel.addRow(new Object[]{itemName, category, condition, extras.toString(), size, quantity});
+        EWasteDao dao = new EWasteDao(); dao.addItem(item);
+        tableModel.addRow(new Object[]{item.getNamaItem(), item.getKategori(), item.getKondisi(), item.getTambahan(), item.getUkuran(), item.getJumlah()});
+        JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan ke database!");
     }
     
         private void resetEntry() {
@@ -187,7 +193,7 @@ public class EWasteApp extends JFrame {
         sizeSlider.setValue(50);
         quantitySpinner.setValue(1); 
 
-        // Clear the table model
+        // Hapus model tabel
         tableModel.setRowCount(0);
     
     }
@@ -201,4 +207,3 @@ public class EWasteApp extends JFrame {
         });
     }
 }
-
